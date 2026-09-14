@@ -2,14 +2,7 @@
 
 A small NLP project that builds the same spam/ham classifier two ways — a classical bag-of-words + Naive Bayes model, and a zero-shot LLM classifier running locally via **Ollama** and **LangChain** — then scores both on the same test data so you can see exactly how they compare.
 
-Full walkthrough with every line of code explained: **[`project1.md`](./project1.md)**
 
-## Files in this project
-
-| File | Purpose |
-|---|---|
-| `README.md` | You are here — setup and how to run |
-| `project1.md` | The full tutorial: Part A (Naive Bayes), Part B (LangChain + Ollama upgrade), Part C (comparison) |
 
 ## Requirements
 
