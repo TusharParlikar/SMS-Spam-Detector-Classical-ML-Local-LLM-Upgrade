@@ -1,85 +1,144 @@
-# SMS Spam Detector — Classical ML + Local LLM Upgrade
+# SMS Spam Detector — Classical ML + Local LLM
 
-A small NLP project that builds the same spam/ham classifier two ways — a classical bag-of-words + Naive Bayes model, and a zero-shot LLM classifier running locally via **Ollama** and **LangChain** — then scores both on the same test data so you can see exactly how they compare.
+A lightweight NLP project that compares **classical machine learning** with a **local Large Language Model (LLM)** for SMS spam detection.
 
+The project implements two approaches:
 
+* **Naive Bayes** with Bag-of-Words features
+* **Zero-shot LLM classification** using LangChain and Ollama
 
-## Requirements
+Both models are evaluated on the same test data to compare their performance.
 
-- Python 3.9+
-- pip packages: `nltk`, `pandas`, `scikit-learn`, `langchain`, `langchain-ollama`
-- [Ollama](https://ollama.com) installed and running — only needed for Part B (the LLM upgrade)
+## 🚀 Features
 
-## Setup
+* Text preprocessing with NLTK
+* Tokenization, stopword removal, and lemmatization
+* Bag-of-Words feature extraction
+* Multinomial Naive Bayes classifier
+* Zero-shot LLM classification
+* Local LLM inference using Ollama
+* LangChain integration
+* Model evaluation using Accuracy, Precision, Recall, and F1-score
 
-### 1. Create an environment and install packages
+## 🛠️ Tech Stack
+
+* Python 3.9+
+* NLTK
+* Pandas
+* Scikit-learn
+* LangChain
+* LangChain-Ollama
+* Ollama
+* Llama 3.2
+
+## 📦 Installation
+
+### Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd <repository-name>
+```
+
+### Create a virtual environment
+
+**Windows:**
 
 ```bash
 python -m venv nlp-env
-source nlp-env/bin/activate        # Windows: nlp-env\Scripts\activate
+nlp-env\Scripts\activate
+```
 
+**Linux / macOS:**
+
+```bash
+python3 -m venv nlp-env
+source nlp-env/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or:
+
+```bash
 pip install nltk pandas scikit-learn langchain langchain-ollama
 ```
 
-### 2. Download NLTK's data files (one time)
+### Download NLTK resources
+
+Run once in Python:
 
 ```python
 import nltk
-nltk.download(['stopwords', 'wordnet', 'punkt', 'punkt_tab'])
+
+nltk.download([
+    "stopwords",
+    "wordnet",
+    "punkt",
+    "punkt_tab"
+])
 ```
 
-### 3. The dataset — no download step needed
+## 🤖 Ollama Setup
 
-`project1.md` loads the real SMS Spam Collection dataset (5,572 messages: 4,825 ham / 747 spam) directly by URL with `pandas.read_csv(url, ...)` — nothing to manually download or save. Original source: [UCI SMS Spam Collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection).
+Ollama is required for the local LLM component.
 
-### 4. Set up Ollama (for Part B only)
+Install Ollama from:
+
+[Ollama](https://ollama.com?utm_source=chatgpt.com)
+
+Then download the model:
 
 ```bash
-# Install Ollama from https://ollama.com, then:
-ollama pull llama3.2      # one-time model download, a few GB
-ollama serve               # starts the local server if it isn't already running
+ollama pull llama3.2
 ```
 
-Check it's alive with `ollama list` in a terminal, or by visiting `http://localhost:11434` in a browser.
+Start Ollama if required:
 
-## How to run
-
-Work through `project1.md` top to bottom — copy each code block into a `.ipynb` notebook or a `.py` file and run it in order:
-
-1. **Part A** — trains and evaluates the Naive Bayes classifier.
-2. **Part B** — builds the zero-shot LLM classifier (requires Ollama running).
-3. **Part C** — runs both on the same test set and prints a side-by-side comparison.
-
-## Example output
-
-**Part A (verified — this is real output from actually running the pipeline on the live dataset)**, `test_size=0.2`, `random_state=42`:
-
-```
-              precision    recall  f1-score   support
-
-         ham     0.9826    0.9948    0.9887       965
-        spam     0.9638    0.8867    0.9236       150
-
-    accuracy                         0.9803      1115
+```bash
+ollama serve
 ```
 
-**Part B (illustrative)** — this one can't be pre-verified here since it depends on Ollama running locally with whichever model you pull, so treat the shape below as a guide, not a guarantee:
+## ▶️ Run Locally
 
+For a Python file:
+
+```bash
+python project1.py
 ```
-LLM (zero-shot, LangChain + Ollama):
-              precision    recall  f1-score   support
-         ham       0.98      0.97      0.98       965
-        spam       0.86      0.91      0.88       150
+
+For a Jupyter Notebook:
+
+```bash
+jupyter notebook
 ```
 
-## Notes
+Open the project notebook and run the cells in order.
 
-- Part B can be slow on a large test set since the LLM generates a fresh reply per message — try it on a small slice (e.g. `X_test[:50]`) first.
-- Everything in Part B runs locally: no API key, no data leaves your machine.
-- Swapping `llama3.2` for a different pulled model is a one-line change in `project1.md`.
+## 📊 Evaluation
 
-## Next steps
+The two approaches are compared using:
 
-- Try a different Ollama model (`ollama pull mistral`, `ollama pull gemma2`) and see how the LLM classifier's scores shift.
-- Build a hybrid classifier: run Naive Bayes first, and only send low-confidence predictions to the LLM.
-- Extend the LangChain chain with `.with_structured_output()` for stricter, schema-enforced responses instead of parsing raw text.
+* **Accuracy**
+* **Precision**
+* **Recall**
+* **F1-score**
+
+This provides a direct comparison between a lightweight **classical ML model** and a **local zero-shot LLM**.
+
+## 🔮 Future Improvements
+
+* Hybrid Naive Bayes + LLM classifier
+* Confidence-based LLM routing
+* Experiment with different Ollama models
+* Structured LLM outputs
+* Confusion matrix visualization
+* Inference-time benchmarking
+
+## 🎯 Objective
+
+To explore the practical differences between **traditional NLP/ML techniques and local LLM-based classification**, including their accuracy, speed, and computational requirements.
